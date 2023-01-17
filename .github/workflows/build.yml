@@ -45,12 +45,15 @@ jobs:
       - name: Wait for pip release, sleep in seconds
         run: sleep 1
         shell: bash
-
-      - name: Setup Portable
+      
+      - name: Get Release Version
         env:
           version: ""
-        run: set version=${GITHUB_REF##*/} pip install pyinstaller lean==${version}
+        run: set version=${GITHUB_REF##*/}
         shell: bash
+
+      - name: Setup Portable
+        run: pip install pyinstaller lean==${version}
 
       - name: Create Portable
         if: matrix.os == 'windows-latest'
