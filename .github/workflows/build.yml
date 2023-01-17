@@ -51,7 +51,7 @@ jobs:
         shell: bash
 
       - name: debug
-        run: echo "my version: ${version}"
+        run: echo "my version ${version}"
 
       - name: Setup Portable
         run: pip install pyinstaller lean==${version}
