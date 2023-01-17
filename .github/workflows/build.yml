@@ -33,9 +33,6 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     needs: [release]
 
-    env:
-      version: "Hello, world!"
-      
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -43,55 +40,27 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: '3.10'
 
       - name: Wait for pip release, sleep in seconds
         run: sleep 1
         shell: bash
-      
-      - name: Get Release Version
-        run: |
-          echo "my version ${version}"
-          echo $version
-          echo ${GITHUB_REF##*/}
-          export version=${GITHUB_REF##*/}
-        shell: bash
-
-      - name: debug
-        run: |
-          echo "my version ${version}"
-          echo $version
 
       - name: Setup Portable
-        run: pip install pyinstaller lean==${version}
+        run: pip install pyinstaller lean==${GITHUB_REF##*/}
+        shell: bash
 
       - name: Create Portable
-        if: matrix.os == 'windows-latest'
-        run: |
-          del /s /f portable
-          mkdir portable
-          cd portable
-          pyinstaller ../scripts/main.spec
-          7z a -tzip dist/lean.${version}.${{ matrix.os }}.zip dist/lean
-        shell: cmd
-
-      - name: Create Portable
-        if: matrix.os == 'macos-12' || matrix.os == 'ubuntu-22.04'
         run: |
           rm -rf portable
           mkdir portable
           cd portable
           pyinstaller ../scripts/main.spec
-          zip -r dist/lean.${version}.${{ matrix.os }}.zip dist/lean
+          zip -r dist/lean.${GITHUB_REF##*/}.${{ matrix.os }}.zip dist/lean
+        shell: bash
 
       - name: Cleanup
-        if: matrix.os == 'windows-latest'
-        run: |
-          cd ..
-          del /s /f portable
-      
-      - name: Cleanup
-        if: matrix.os == 'macos-12' || matrix.os == 'ubuntu-22.04'
         run: |
           cd ..
           rm -rf portable
+        shell: bash
