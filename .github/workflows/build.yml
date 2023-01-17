@@ -47,9 +47,11 @@ jobs:
         shell: bash
 
       - name: Setup Portable
-        run: pip install pyinstaller lean==${GITHUB_REF##*/}
+        env:
+          version: ${GITHUB_REF##*/}
+        run: pip install pyinstaller lean==${version}
         shell: bash
-        
+
       - name: Create Portable
         if: matrix.os == 'windows-latest'
         run: |
@@ -57,7 +59,7 @@ jobs:
           mkdir portable
           cd portable
           pyinstaller ../scripts/main.spec
-          7z a -tzip dist/lean.${GITHUB_REF##*/}.${{ matrix.os }}.zip dist/lean
+          7z a -tzip dist/lean.${version}.${{ matrix.os }}.zip dist/lean
         shell: cmd
 
       - name: Create Portable
@@ -67,7 +69,7 @@ jobs:
           mkdir portable
           cd portable
           pyinstaller ../scripts/main.spec
-          zip -r dist/lean.${GITHUB_REF##*/}.${{ matrix.os }}.zip dist/lean
+          zip -r dist/lean.${version}.${{ matrix.os }}.zip dist/lean
 
       - name: Cleanup
         if: matrix.os == 'windows-latest'
