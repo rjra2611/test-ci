@@ -56,8 +56,16 @@ jobs:
           mkdir portable
           cd portable
           pyinstaller ../scripts/main.spec
-          zip -r dist/lean.${GITHUB_REF##*/}.${{ matrix.os }}.zip dist/lean
         shell: bash
+
+      - name: Zip package
+        if: matrix.os == 'windows-latest'
+        run: 7z a -tzip dist/lean.${GITHUB_REF##*/}.${{ matrix.os }}.zip dist/lean
+        shell: bash
+
+      - name: Zip package
+        if: matrix.os == 'macos-12' || matrix.os == 'ubuntu-22.04'
+        run: zip -r dist/lean.${GITHUB_REF##*/}.${{ matrix.os }}.zip dist/lean
 
       - name: Cleanup
         run: |
