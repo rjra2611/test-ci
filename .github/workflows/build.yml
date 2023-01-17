@@ -48,8 +48,8 @@ jobs:
 
       - name: Setup Portable
         env:
-          version: ${GITHUB_REF##*/}
-        run: pip install pyinstaller lean==${version}
+          version: ""
+        run: set version=${GITHUB_REF##*/} pip install pyinstaller lean==${version}
         shell: bash
 
       - name: Create Portable
