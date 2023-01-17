@@ -47,7 +47,9 @@ jobs:
         shell: bash
       
       - name: Get Release Version
-        run: export version=${GITHUB_REF##*/}
+        run: |
+        echo ${GITHUB_REF##*/}
+        export version=${GITHUB_REF##*/}
         shell: bash
 
       - name: debug
