@@ -49,7 +49,9 @@ jobs:
       - name: Get Release Version
         env:
           version: ""
-        run: set version=${GITHUB_REF##*/}
+        run: |
+          set version=${GITHUB_REF##*/}
+          echo ${GITHUB_REF##*/}
         shell: bash
 
       - name: Setup Portable
