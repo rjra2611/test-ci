@@ -47,12 +47,11 @@ jobs:
         shell: bash
       
       - name: Get Release Version
-        env:
-          version: ""
-        run: |
-          set version=${GITHUB_REF##*/}
-          echo ${version}
+        run: set version=${GITHUB_REF##*/}
         shell: bash
+
+      - name: debug
+        run: echo "my version: ${version}"
 
       - name: Setup Portable
         run: pip install pyinstaller lean==${version}
