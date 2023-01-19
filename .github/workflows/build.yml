@@ -23,15 +23,6 @@ jobs:
       - name: Update version
         run: sed -i 's/__version__ = "dev"/__version__ = "'"${GITHUB_REF##*/}"'"/g' lean/__init__.py
 
-      - name: Build package
-        run: python setup.py sdist bdist_wheel
-
-      - name: Publish package to PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
-
   portable:
     runs-on: ${{ matrix.os }}
 
