@@ -20,9 +20,6 @@ jobs:
       - name: Install packaging dependencies
         run: pip install wheel
 
-      - name: Update version
-        run: sed -i 's/__version__ = "dev"/__version__ = "'"${GITHUB_REF##*/}"'"/g' lean/__init__.py
-
   portable:
     runs-on: ${{ matrix.os }}
 
