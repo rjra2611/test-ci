@@ -29,6 +29,6 @@ jobs:
       - name: Update version information
         if: matrix.os == 'ubuntu-22.04'
         run: |
-          echo '{ "version": "\"${GITHUB_REF##*/}\"" }'
+          echo '{ "version": "'"$GITHUB_REF"'", "branch": "'${GITHUB_REF##*/}'" }'
         shell: bash
 
